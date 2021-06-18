@@ -72,7 +72,89 @@
 <p>擊球機構</p>
 <p><img alt="" height="221" src="/images/18.png" width="300"/></p>
 <p>往復機構</p>
-<p><img alt="" height="228" src="/images/19.PNG" width="300"/></p><h3>迷宮</h3>
+<p><img alt="" height="228" src="/images/19.PNG" width="300"/></p>
+<h3>迷宮</h3>
+<p>組合圖</p>
+<p><img alt="" height="191" src="/images/21.png" width="300"/></p>
+<p>迷宮主體</p>
+<p><img alt="" height="185" src="/images/22.png" width="300"/></p>
+<p>第二層支架</p>
+<p><img alt="" height="196" src="/images/23.png" width="300"/></p>
+<p>第三層支架</p>
+<p><img alt="" height="197" src="/images/24.png" width="300"/></p>
+<p>桿子四個(用來連接支架)</p>
+<p><img alt="" height="196" src="/images/25.png" width="300"/></p>
+<p>風扇機構</p>
+<p><img alt="" height="191" src="/images/26.png" width="300"/></p>
+<p>風扇連接桿</p>
+<p><img alt="" height="160" src="/images/27.png" width="300"/></p>
+<p>滑板機構</p>
+<p><img alt="" height="173" src="/images/28.png" width="300"/></p>
+<p>連接滑板機構</p>
+<p><img alt="" height="190" src="/images/29.png" width="300"/></p>
+<h2>模擬</h2>
+<h3>彈珠檯模擬</h3>
+<p><span>stage3模擬，但模擬過程中，一開始的擊球機構沒控制好的話會把球彈到後面去，這邊還需要修改一下，這次是用lua的程式碼下去，可以用鍵盤控制，分別是q、p、a、;、z、.。</span></p>
+<p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" frameborder="0" height="338" src="//www.youtube.com/embed/UeFtFcbUtLI" title="YouTube video player" width="600"></iframe></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">import sim as vrep
+import math
+import random
+import time
+import keyboard
+  
+print ('Start')
+  
+# Close eventual old connections
+vrep.simxFinish(-1)
+# Connect to V-REP remote server
+clientID = vrep.simxStart('127.0.0.1', 19997, True, True, 5000, 5)
+   
+if clientID !=-1:
+    print ('Connected to remote API server')
+    
+    res = vrep.simxAddStatusbarMessage(
+        clientID, "40823222",
+        vrep.simx_opmode_oneshot)
+           
+    if res not in (vrep.simx_return_ok, vrep.simx_return_novalue_flag):
+        print("Could not add a message to the status bar.")
+           
+    opmode = vrep.simx_opmode_oneshot_wait
+      
+    vrep.simxStartSimulation(clientID, opmode)
+    ret,shaft1=vrep.simxGetObjectHandle(clientID,"joint1",opmode)
+    ret,shaft2=vrep.simxGetObjectHandle(clientID,"joint2",opmode)
+    ret,shaft3=vrep.simxGetObjectHandle(clientID,"joint3",opmode)
+ 
+    while True:
+        if keyboard.is_pressed("q"):
+            vrep.simxSetJointTargetPosition(clientID,shaft1,-200,opmode)
+            print("q")
+             
+        if keyboard.is_pressed("p"):
+            vrep.simxSetJointTargetPosition(clientID,shaft1,200,opmode)
+            print("p")
+             
+        if keyboard.is_pressed("a"):
+            vrep.simxSetJointTargetPosition(clientID,shaft2,90,opmode)
+            print("a")
+ 
+        if keyboard.is_pressed(";"):
+            vrep.simxSetJointTargetPosition(clientID,shaft2,0,opmode)
+            print(";")
+             
+        if keyboard.is_pressed("z"):
+            vrep.simxSetJointTargetPosition(clientID,shaft3,90,opmode)
+            print("z")
+ 
+        if keyboard.is_pressed("."):
+            vrep.simxSetJointTargetPosition(clientID,shaft3,0,opmode)
+            print(".")            
+else:
+    print ('Failed connecting to  remote API server')
+    print ('End')</pre>
+<p>if keyboard.is_pressed("q"):<br/>vrep.simxSetJointTargetPosition(clientID,shaft1,-200,opmode)</p>
+<p>假設說按鍵按q的話，shaft1的旋轉軸會移動角度到-200度。</p><h3>火車模擬</h3>
 <h1>W5</h1>
 <p><strong>報告影片</strong></p>
 <p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" frameborder="0" height="375" src="//www.youtube.com/embed/80nXDk3J2BU" title="YouTube video player" width="600"></iframe></p>
