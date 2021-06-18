@@ -64,26 +64,15 @@
 <p>第二次直播教學</p>
 <p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" frameborder="0" height="338" src="//www.youtube.com/embed/ieQEChlieB8" title="YouTube video player" width="600"></iframe></p>
 <h2>W13</h2>
-<p>RoboDK測試</p>
-<p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" frameborder="0" height="338" src="//www.youtube.com/embed/WG3v5FZqkWY" title="YouTube video player" width="600"></iframe>W15</p>
-<p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" frameborder="0" height="338" src="//www.youtube.com/embed/IKOGwoJ2HLk" title="YouTube video player" width="600"></iframe></p>
-<p><img alt="" height="144" src="/images/1.PNG" width="300"/></p>
-<p>終點座標是(x、y)，垂直高度是x水平寬度是y</p>
-<p>使用畢氏定理可的方程式</p>
-<p><img alt="" height="143" src="/images/2.PNG" width="300"/></p>
-<p>此圖可得知餘弦定理</p>
-<p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" frameborder="0" height="338" src="//www.youtube.com/embed/eIZuz1XCd0w" title="YouTube video player" width="600"></iframe></p>
-<p><img alt="" height="138" src="/images/3.PNG" width="300"/></p>
-<p>特定的線性函數不是幾何，有一個表達式E</p>
-<p>旋轉q1沿x方向平移a1；旋轉q2，由a2在x方向進行平移，如果展開這個，全部相乘</p>
-<p>一起轉變得到此表達式，表示尾端姿態的矩陣</p>
-<p><img alt="" height="66" src="/images/4.PNG" width="300"/></p>
-<p>分解x與y座標</p>
-<p><img alt="" height="56" src="/images/5.PNG" width="300"/></p>
-<p>平方X和Y方程式後兩兩相加可得知角度q2</p>
-<p><img alt="" height="138" src="/images/6.PNG" width="300"/></p>
-<p></p>
-<p></p>
+<p><br/>RoboDK測試<br/><br/><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" frameborder="0" height="338" src="//www.youtube.com/embed/WG3v5FZqkWY" title="YouTube video player" width="600"></iframe></p>
+<h2>零件</h2>
+<h3>彈珠檯</h3>
+<p>主體</p>
+<p><img alt="" height="285" src="/images/17.png" width="300"/></p>
+<p>擊球機構</p>
+<p><img alt="" height="221" src="/images/18.png" width="300"/></p>
+<p>往復機構</p>
+<p><img alt="" height="228" src="/images/19.PNG" width="300"/></p><h3>迷宮</h3>
 <h1>W5</h1>
 <p><strong>報告影片</strong></p>
 <p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" frameborder="0" height="375" src="//www.youtube.com/embed/80nXDk3J2BU" title="YouTube video player" width="600"></iframe></p>
@@ -253,4 +242,85 @@ function sysCall_threadmain()
     end
 </pre>
 <p><strong>5.Python remote API逆向運算學函示</strong></p>
-<p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" frameborder="0" height="338" src="//www.youtube.com/embed/sgJHF831Y8g" title="YouTube video player" width="600"></iframe>心得:這一次作業的能夠順利完成，要非常感謝我們班的40823214林厚宇，在閒暇之時花了五六個小時重頭到尾教我們一遍，讓我能順利趕上進度。</p>
+<p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" frameborder="0" height="338" src="//www.youtube.com/embed/sgJHF831Y8g" title="YouTube video player" width="600"></iframe></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">import sim as vrep
+import math
+import random
+import time
+import math
+
+def moving(x,y):
+        a=0.6
+        b=0.5
+        c=math.pow((math.pow(x,2)+math.pow(y,2)),0.5)
+        s=(a+b+c)/2
+        area=math.pow((s*(s-a)*(s-b)*(s-c)),0.5)
+        h=area/(2*c)
+        deg1_base=math.atan(x/y)
+        if x&lt;0 and y&lt;0:
+                deg1_base=deg1_base+math.pi
+        deg1_tri=math.asin(h/a)
+        deg1=deg1_base+deg1_tri
+        deg2=math.pi-(0.5*math.pi-deg1_tri)-math.acos(h/b)
+        deg3=deg2-deg1
+        vrep.simxSetJointTargetPosition(clientID,joint01,deg1,opmode)
+        vrep.simxSetJointTargetPosition(clientID,joint02,-deg2,opmode)
+        vrep.simxSetJointTargetPosition(clientID,joint03,deg3,opmode)
+     
+      
+       
+print ('Start')
+ 
+vrep.simxFinish(-1)
+ 
+clientID = vrep.simxStart('127.0.0.1', 19997, True, True, 5000, 5)
+  
+if clientID != -1:
+    print ('Connected to remote API server')
+      
+    res = vrep.simxAddStatusbarMessage(
+        clientID, "40823219",
+        vrep.simx_opmode_oneshot)
+    if res not in (vrep.simx_return_ok, vrep.simx_return_novalue_flag):
+        print("Could not add a message to the status bar.")
+  
+     
+    opmode = vrep.simx_opmode_oneshot_wait
+    STREAMING = vrep.simx_opmode_streaming
+  
+     
+    vrep.simxStartSimulation(clientID, opmode)
+    ret,joint01=vrep.simxGetObjectHandle(clientID,"joint1",opmode)
+    ret,joint02=vrep.simxGetObjectHandle(clientID,"joint2",opmode)
+    ret,joint03=vrep.simxGetObjectHandle(clientID,"joint3",opmode)
+    ret,jointz=vrep.simxGetObjectHandle(clientID,"jointz",opmode)
+    
+    vrep.simxSetJointTargetPosition(clientID,joint01,0,opmode)
+    vrep.simxSetJointTargetPosition(clientID,joint02,0,opmode)
+    vrep.simxSetJointTargetPosition(clientID,joint03,0,opmode)
+    vrep.simxSetIntegerSignal(clientID,"pad_switch",1,opmode)
+    vrep.simxSetJointTargetPosition(clientID,jointz,-0.073,opmode)
+    time.sleep(1)
+    vrep.simxSetJointTargetPosition(clientID,jointz,0,opmode)
+    while True:
+        moving(0.2,0.7)
+        time.sleep(1)
+        vrep.simxSetIntegerSignal(clientID,"pad_switch",0,opmode)
+        time.sleep(1)
+        vrep.simxSetIntegerSignal(clientID,"pad_switch",1,opmode)
+        vrep.simxSetJointTargetPosition(clientID,jointz,-0.078,opmode)
+        time.sleep(1)
+        vrep.simxSetJointTargetPosition(clientID,jointz,0,opmode)
+        moving(-0.3,-0.55)
+        time.sleep(1)
+        vrep.simxSetIntegerSignal(clientID,"pad_switch",0,opmode)
+        time.sleep(1)
+        vrep.simxSetIntegerSignal(clientID,"pad_switch",1,opmode)
+        vrep.simxSetJointTargetPosition(clientID,jointz,-0.083,opmode)
+        time.sleep(1)
+        vrep.simxSetJointTargetPosition(clientID,jointz,0,opmode)
+        time.sleep(1)
+    
+    
+    </pre>
+<p>心得:這一次作業的能夠順利完成，要非常感謝我們班的40823214林厚宇，在閒暇之時花了五六個小時重頭到尾教我們一遍，讓我能順利趕上進度。</p>
