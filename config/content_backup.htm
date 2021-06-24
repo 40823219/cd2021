@@ -154,7 +154,67 @@ else:
     print ('Failed connecting to  remote API server')
     print ('End')</pre>
 <p>if keyboard.is_pressed("q"):<br/>vrep.simxSetJointTargetPosition(clientID,shaft1,-200,opmode)</p>
-<p>假設說按鍵按q的話，shaft1的旋轉軸會移動角度到-200度。</p><h3>火車模擬</h3>
+<p>假設說按鍵按q的話，shaft1的旋轉軸會移動角度到-200度。</p>
+<h3>火車模擬</h3>
+<p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" frameborder="0" height="338" src="//www.youtube.com/embed/UaGLcyiS1HA" title="YouTube video player" width="600"></iframe></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">import sim as vrep
+import math
+import random
+import time
+import keyboard
+   
+print ('Start')
+   
+# Close eventual old connections
+vrep.simxFinish(-1)
+# Connect to V-REP remote server
+clientID = vrep.simxStart('192.168.1.110', 19997, True, True, 5000, 5)
+    
+if clientID !=-1:
+    print ('Connected to remote API server')
+     
+    res = vrep.simxAddStatusbarMessage(
+        clientID, "all start",
+        vrep.simx_opmode_oneshot)
+            
+    if res not in (vrep.simx_return_ok, vrep.simx_return_novalue_flag):
+        print("Could not add a message to the status bar.")
+            
+    opmode = vrep.simx_opmode_oneshot_wait
+       
+    vrep.simxStartSimulation(clientID, opmode)
+    ret,wheel1=vrep.simxGetObjectHandle(clientID,"wheel_1",opmode)
+    ret,wheel2=vrep.simxGetObjectHandle(clientID,"wheel_2",opmode)
+    ret,wheel3=vrep.simxGetObjectHandle(clientID,"wheel_3",opmode)
+    ret,wheel4=vrep.simxGetObjectHandle(clientID,"wheel_4",opmode)
+  
+    while True:
+        if keyboard.is_pressed("g"):
+            vrep.simxSetJointTargetVelocity(clientID,wheel1,20,opmode)
+            vrep.simxSetJointTargetVelocity(clientID,wheel2,20,opmode)
+            vrep.simxSetJointTargetVelocity(clientID,wheel3,20,opmode)
+            vrep.simxSetJointTargetVelocity(clientID,wheel4,20,opmode)
+            print("go")
+              
+        if keyboard.is_pressed("r"):
+            vrep.simxSetJointTargetVelocity(clientID,wheel1,-20,opmode)
+            vrep.simxSetJointTargetVelocity(clientID,wheel2,-20,opmode)
+            vrep.simxSetJointTargetVelocity(clientID,wheel3,-20,opmode)
+            vrep.simxSetJointTargetVelocity(clientID,wheel4,-20,opmode)
+            print("back")
+              
+        if keyboard.is_pressed("s"):
+            vrep.simxSetJointTargetVelocity(clientID,wheel1,0,opmode)
+            vrep.simxSetJointTargetVelocity(clientID,wheel2,0,opmode)
+            vrep.simxSetJointTargetVelocity(clientID,wheel3,0,opmode)
+            vrep.simxSetJointTargetVelocity(clientID,wheel4,0,opmode)
+            print("stop")
+          
+else:
+    print ('Failed connecting to  remote API server')
+    print ('End')
+</pre>
+<p></p>
 <h1>W5</h1>
 <p><strong>報告影片</strong></p>
 <p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" frameborder="0" height="375" src="//www.youtube.com/embed/80nXDk3J2BU" title="YouTube video player" width="600"></iframe></p>
@@ -406,3 +466,4 @@ if clientID != -1:
     
     </pre>
 <p>心得:這一次作業的能夠順利完成，要非常感謝我們班的40823214林厚宇，在閒暇之時花了五六個小時重頭到尾教我們一遍，讓我能順利趕上進度。</p>
+<h1>心得</h1>
